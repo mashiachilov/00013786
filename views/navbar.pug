@@ -1,0 +1,24 @@
+html(lang="en")
+    head
+        title Mashi.blog
+        link(rel="stylesheet", href="/static/styles.css")
+        link(rel="stylesheet", href="/static/generate.css")
+        link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer")
+    body
+        .navbar-container 
+           .navbar 
+                .pages 
+                    a.page(href="/") Home 
+                    a.page(href="/blogs") Blogs
+                    a.page(href="/generate") Add new blog      
+                h1.name Mashrab Ochilov
+                .add_email 
+                    p.subscribe Subscribe for newsletter
+                    .sent-email
+                        input(type="email" placeholder="Enter email address")
+                        button(type="button").send 
+                            img(src="/static/images/send.svg", alt="send")  
+                .footer 
+                    p.text Copyright ©2023 All rights reserved | This template is made with  by 00013786    
+        block content
+        
