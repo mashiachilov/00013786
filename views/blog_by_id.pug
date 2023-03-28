@@ -1,0 +1,16 @@
+extends navbar.pug
+
+block content
+    .container 
+        h2.title dsfdsf
+        p.description dfdsds
+        img(src="", alt="image").image
+        .buttons 
+            a(href=`/generate?blog_id=${blog.id}`).update Update
+            a(type="button").delete Delete 
+    .modal_delete
+        .modal_delete_content
+            h3 Do you really want to delete?
+            .claim
+                a(href="") Yes 
+                a.reject_delete No

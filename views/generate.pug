@@ -1,0 +1,30 @@
+extends navbar.pug
+
+block content
+    .container 
+        .container_add
+            form(action="generate" method="POST" enctype="multipart/form-data") 
+                .row
+                h4 Add New Blog
+                .input-group.input-group-icon
+                    input(type="text", placeholder="Blog Title" name="title")
+                    .input-icon
+                        i.fa-solid.fa-pen.fa
+                .input-group.input-group-icon
+                    input(type="text", placeholder="Blog Category" name="category")
+                    .input-icon
+                        i.fa.fa-envelope
+                .input-group.input-group-icon
+                    input(type="date" name="date")
+                    .input-icon
+                        i.fa-duotone.fa-calendar-days.fa
+                .row 
+                    h4 Blog Description
+                    textarea(name="description", cols="30", rows="10" class="textarea").description 
+                .row 
+                    h4
+                        label(for="image" class="placeholder") Images
+                    input(type="file" id="image" class="input" class="file" name="image")
+                    .optional optional
+                .row 
+                    button.btn(type="submit") Add new blog
