@@ -3,24 +3,32 @@ extends navbar.pug
 block content
     .container 
         .container_add
-            form(action="generate" method="POST" enctype="multipart/form-data") 
+            form(action=blog_id ? `/generate?blog_id=${blog_id}`: '/generate' method="POST" enctype="multipart/form-data") 
                 .row
                 h4 Add New Blog
                 .input-group.input-group-icon
-                    input(type="text", placeholder="Blog Title" name="title")
+                    input(type="text", placeholder="Blog Title" name="title" value=title)
                     .input-icon
                         i.fa-solid.fa-pen.fa
+                    if(title == '')
+                        .required required
                 .input-group.input-group-icon
-                    input(type="text", placeholder="Blog Category" name="category")
+                    input(type="text", placeholder="Blog Category" name="category" value=category)
                     .input-icon
                         i.fa.fa-envelope
+                    if(category == '')
+                        .required required
                 .input-group.input-group-icon
-                    input(type="date" name="date")
+                    input(type="date" name="date" value=date)
                     .input-icon
                         i.fa-duotone.fa-calendar-days.fa
+                    if(date == '')
+                        .required required
                 .row 
                     h4 Blog Description
-                    textarea(name="description", cols="30", rows="10" class="textarea").description 
+                    textarea(name="description", cols="30", rows="10" class="textarea" data-description=description).description 
+                    if(description == '')
+                        .required.desc required
                 .row 
                     h4
                         label(for="image" class="placeholder") Images
@@ -28,3 +36,9 @@ block content
                     .optional optional
                 .row 
                     button.btn(type="submit") Add new blog
+    if(created)
+        .modal 
+            .modal_content
+                .modal_content_title successfully create
+                button(type="button").redirect go blogs
+                button(type="button").create_again create again
