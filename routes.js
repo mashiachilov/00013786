@@ -5,7 +5,6 @@ const fs = require("fs");
 const path = require("path");
 const moment = require("moment");
 
-
 const router = new Router();
 
 const storage = multer.diskStorage({
@@ -23,11 +22,11 @@ const storage = multer.diskStorage({
 
 let upload = multer({
   limits: {
-    fileSize: 3000000, // file size should not exceed 3 mb
+    fileSize: 10000000,
   },
   fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(jpg|jpeg|png|JPG)$/)) {
-      return cb(new Error("Please upload proper image"));
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+      return cb(new Error("Please upload a valid image file"));
     }
 
     cb(undefined, true);
@@ -39,6 +38,16 @@ router.get("/", (req, res) => {
   res.render("home");
 });
 
+//
+router.get("/blogs", (req, res) => {
+  fs.readFile("./blog_data/data.json", (err, blog_data) => {
+    if (err) throw err;
+    const allBlogs = JSON.parse(blog_data);
+    res.render("blogs", { blogs: allBlogs });
+  });
+});
+
+//
 router.get("/generate", (req, res) => {
   const blog_id = req.query.blog_id;
   if (blog_id) {
@@ -93,7 +102,7 @@ const monthConverter = (month) => {
       return "";
   }
 };
-
+//
 router.post("/generate", upload.single("image"), (req, res) => {
   const blog_id = req.query.blog_id;
 
@@ -146,12 +155,38 @@ const extendedDate = (date) => {
   };
 };
 
-router.get("/blog_by_id", (req, res) => {
-  res.render("home");
-});
-router.get("/blogs", (req, res) => {
-  res.render("blogs");
+//
+router.get("/blogs/:id", (req, res) => {
+  const id = req.params.id;
+  fs.readFile("./blog_data/data.json", (err, blog_data) => {
+    if (err) throw err;
+    const allBlogs = JSON.parse(blog_data);
+    const blogById = allBlogs.find((blog) => blog.id == id);
+    res.render("blog_by_id", {
+      blog: blogById,
+    });
+  });
 });
 
+router.get("/:id/delete", (req, res) => {
+  const id = req.params.id;
+  fs.readFile("./blog_data/data.json", (err, blog_data) => {
+    if (err) throw err;
+    const allBlogs = JSON.parse(blog_data);
+    const filteredBlogs = allBlogs.filter((blog) => blog.id != id);
+    const newBlogs = JSON.stringify(filteredBlogs);
+    const blogsForDelete = allBlogs.find((blog) => blog.id == id);
+
+    fs.writeFile("./blog_data/data.json", newBlogs, (err) => {
+      if (err) throw err;
+      if (blogsForDelete?.image) {
+        fs.unlink(`public/uploads/${blogsForDelete?.image}`, (err) => {
+          if (err) throw err;
+        });
+      }
+      res.render("blogs", { blogs: filteredBlogs, delete: true });
+    });
+  });
+});
 
 module.exports = router;

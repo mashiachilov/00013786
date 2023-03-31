@@ -3,18 +3,21 @@ extends navbar.pug
 block content
     .container 
         .blogs 
-            .blog
-                img(src="" alt="img" class="img")
-                .contents 
-                    h2.title jdskf
-                    .categories_date 
-                        span.date
-                            img(src="static/images/date.svg", alt="date" class="date-image")
-                            p.date-text 09-09-2003
-                        span.categories 
-                            img(src="/static/images/folder.svg", alt="folder")
-                            p.categories-text Lorem, ipsum dolor.
-                    p.short_blog Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis tempore placeat sunt optio, repellat nemo! Nobis magnam eaque consequatur nam modi expedita porro saepe velit? Necessitatibus dignissimos reiciendis vitae non!
-                    .more   
-                        a.read_more(href="") Read more
-                        img(src="/static/images/right.svg", alt="right")
+            each blog in blogs 
+                .blog
+                    img(src=blog.image ? `/static/uploads/${blog.image}` : 'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png', alt="img" class="img")
+                    .contents 
+                        h2.title #{blog.title}
+                        .categories_date 
+                            span.date
+                                img(src="static/images/date.svg", alt="date" class="date-image")
+                                p.date-text #{blog.date.month} #{blog.date.day} #{blog.date.year}
+                            span.categories 
+                                img(src="/static/images/folder.svg", alt="folder")
+                                p.categories-text #{blog.category}
+                        p.short_blog #{blog.description}
+                        .more   
+                            a.read_more(href=`/blogs/${blog.id}`) Read more
+                            img(src="/static/images/right.svg", alt="right")
+            if(blogs.length == 0)
+                .no_blogs no blogs found !!!

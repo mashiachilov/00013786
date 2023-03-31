@@ -396,3 +396,12 @@ a.add_blog-home {
   background-color: #1eafed;
   color: #fff;
 }
+.no_blogs{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: 700;
+}
